@@ -1,0 +1,62 @@
+@model IEnumerable<_232127DelaCruzIPTCRUD.Models._232127DelaCruzCourseModel>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>Courses</h2>
+        <p class="text-muted">Manage course records</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="fa-solid fa-plus"></i> Add New Course
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Description</th>
+                        <th>Students Enrolled</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var course in Model)
+                    {
+                        <tr>
+                            <td>@course.COURSEID</td>
+                            <td>@course.DESCRIPTION</td>
+                            <td>
+                                <span class="badge bg-primary">@course.StudentCount students</span>
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@course.COURSEID" class="btn btn-sm btn-warning">
+                                    <i class="fa-solid fa-pen"></i> Edit
+                                </a>
+                                <form method="post" asp-action="Delete" asp-route-id="@course.COURSEID" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this course? This will affect @course.StudentCount students.');">
+                                    <button type="submit" class="btn btn-sm btn-danger" @(course.StudentCount > 0 ? "disabled" : "")>
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

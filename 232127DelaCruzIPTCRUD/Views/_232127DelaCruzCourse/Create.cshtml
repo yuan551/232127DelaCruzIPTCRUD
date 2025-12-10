@@ -1,0 +1,30 @@
+@model _232127DelaCruzIPTCRUD.Models._232127DelaCruzCourseModel
+
+@{
+    ViewData["Title"] = "Create Course";
+}
+
+<div class="mb-4">
+    <h2>Create Course</h2>
+    <p class="text-muted">Add a new course</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" asp-action="Create">
+            <div class="mb-3">
+                <label for="DESCRIPTION" class="form-label">Course Description</label>
+                <input type="text" class="form-control" id="DESCRIPTION" name="DESCRIPTION" placeholder="e.g., Bachelor of Science in Information Technology" required>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Create Course
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

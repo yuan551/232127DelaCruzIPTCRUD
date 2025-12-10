@@ -1,0 +1,67 @@
+@model _232127DelaCruzIPTCRUD.Models._232127DelaCruzStudentModel
+
+@{
+    ViewData["Title"] = "Create Student";
+}
+
+<div class="mb-4">
+    <h2>Create Student</h2>
+    <p class="text-muted">Add a new student record</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" asp-action="Create">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="FNAME" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="FNAME" name="FNAME" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="LNAME" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="LNAME" name="LNAME" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="MNAME" class="form-label">Middle Name</label>
+                    <input type="text" class="form-control" id="MNAME" name="MNAME">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="BDAY" class="form-label">Birthday</label>
+                    <input type="date" class="form-control" id="BDAY" name="BDAY" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="GENDER" class="form-label">Gender</label>
+                    <select class="form-select" id="GENDER" name="GENDER" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="COURSEID" class="form-label">Course</label>
+                <select class="form-select" id="COURSEID" name="COURSEID" required>
+                    <option value="">Select Course</option>
+                    @foreach (var course in ViewBag.Courses)
+                    {
+                        <option value="@course.COURSEID">@course.DESCRIPTION</option>
+                    }
+                </select>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Create Student
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

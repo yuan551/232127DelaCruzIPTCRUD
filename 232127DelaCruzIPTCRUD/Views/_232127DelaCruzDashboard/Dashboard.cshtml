@@ -1,0 +1,242 @@
+@model _232127DelaCruzIPTCRUD.Models._232127DelaCruzDashboardModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-header mb-4">
+    <h2>Dashboard</h2>
+    <p>Overview of Student Management System</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 2rem; height: 2rem;">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>@Model.TotalStudents</h3>
+                <p>Total Students</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card stat-card-success">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 2rem; height: 2rem;">
+                    <path d="M21 16v-5h-3V4c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v12c0 .55.45 1 1 1h14v3h3l3-3z"/>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>@Model.TotalCourses</h3>
+                <p>Total Courses</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card stat-card-info">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 2rem; height: 2rem;">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>@Model.TotalUsers</h3>
+                <p>Total Users</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Gender Distribution</h5>
+            </div>
+            <div class="card-body">
+                <div style="position: relative; height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <canvas id="genderChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Course Distribution</h5>
+            </div>
+            <div class="card-body">
+                <div style="position: relative; height: 300px;">
+                    <canvas id="courseChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Recent Students</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.RecentStudents != null)
+                            {
+                                @foreach (var student in Model.RecentStudents)
+                                {
+                                    <tr>
+                                        <td>@student.STUDENTID</td>
+                                        <td>@student.FNAME @student.LNAME</td>
+                                        <td>@student.CourseName</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Upcoming Birthdays</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Birthday</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.UpcomingBirthdays != null)
+                            {
+                                @foreach (var student in Model.UpcomingBirthdays)
+                                {
+                                    <tr>
+                                        <td>@student.FNAME @student.LNAME</td>
+                                        <td>@student.BDAY.ToString("MMM dd")</td>
+                                        <td>@student.CourseName</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Gender Distribution Chart
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        const genderData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.GenderDistribution));
+        
+        console.log('Gender Data:', genderData);
+        
+        new Chart(genderCtx, {
+            type: 'pie',
+            data: {
+                labels: genderData && genderData.length > 0 ? genderData.map(d => d.Gender || 'Unknown') : ['No Data'],
+                datasets: [{
+                    data: genderData && genderData.length > 0 ? genderData.map(d => d.Count || 0) : [0],
+                    backgroundColor: ['#1a1a1a', '#808080', '#FF8C00', '#1E90FF'],
+                    borderColor: '#1a1f2e',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 },
+                            color: '#cbd5e0',
+                            padding: 15,
+                            usePointStyle: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Course Distribution Chart
+        const courseCtx = document.getElementById('courseChart').getContext('2d');
+        const courseData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.CourseDistribution));
+        
+        console.log('Course Data:', courseData);
+        
+        new Chart(courseCtx, {
+            type: 'bar',
+            data: {
+                labels: courseData && courseData.length > 0 ? courseData.map(d => d.DESCRIPTION || 'Unknown') : ['No Data'],
+                datasets: [{
+                    label: 'Students',
+                    data: courseData && courseData.length > 0 ? courseData.map(d => d.StudentCount || 0) : [0],
+                    backgroundColor: '#FF8C00',
+                    borderColor: '#E67E22',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#cbd5e0',
+                            font: { size: 11 }
+                        },
+                        grid: {
+                            color: '#2d3748',
+                            drawBorder: false
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#cbd5e0',
+                            font: { size: 10 }
+                        },
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }
+                }
+            }
+        });
+        console.log('Chart colors updated - Orange for bar chart, black/gray/orange/blue for pie');
+    </script>
+}

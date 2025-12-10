@@ -1,0 +1,263 @@
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="mb-4">
+    <h2>Reports</h2>
+    <p>Lists and statistics for students and courses</p>
+    <small>Requirements: All Students • Students Per Course • Birthday Celebrants • Percentage per Course • Gender Percentage</small>
+</div>
+
+<ul class="nav nav-tabs mb-4" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(ViewBag.ReportType == "allstudents" ? "active" : "")" href="?reportType=allstudents">All Students</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(ViewBag.ReportType == "percourse" ? "active" : "")" href="?reportType=percourse">Students Per Course</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(ViewBag.ReportType == "birthday" ? "active" : "")" href="?reportType=birthday">Birthday Celebrants</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(ViewBag.ReportType == "coursechart" ? "active" : "")" href="?reportType=coursechart">Course Percentage</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link @(ViewBag.ReportType == "genderchart" ? "active" : "")" href="?reportType=genderchart">Gender Distribution</a>
+    </li>
+</ul>
+
+@if (ViewBag.ReportType == "allstudents")
+{
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">All Students</h5>
+            <button onclick="window.print()" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-print"></i> Print
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Birthday</th>
+                            <th>Gender</th>
+                            <th>Course</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in ViewBag.Students)
+                        {
+                            <tr>
+                                <td>@student.STUDENTID</td>
+                                <td>@student.FNAME @student.MNAME @student.LNAME</td>
+                                <td>@student.BDAY.ToString("MMM dd, yyyy")</td>
+                                <td>@student.GENDER</td>
+                                <td>@student.CourseName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else if (ViewBag.ReportType == "percourse")
+{
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-3">Students Per Course</h5>
+            <form method="get" class="row g-3">
+                <input type="hidden" name="reportType" value="percourse" />
+                <div class="col-md-6">
+                    <select name="courseId" class="form-select" onchange="this.form.submit()">
+                        <option value="">Select Course</option>
+                        @foreach (var course in ViewBag.Courses)
+                        {
+                            <option value="@course.COURSEID" selected="@(ViewBag.CourseId == course.COURSEID)">@course.DESCRIPTION</option>
+                        }
+                    </select>
+                </div>
+            </form>
+        </div>
+        @if (ViewBag.CourseId != null && ViewBag.Students != null)
+        {
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Birthday</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in ViewBag.Students)
+                            {
+                                <tr>
+                                    <td>@student.STUDENTID</td>
+                                    <td>@student.FNAME @student.MNAME @student.LNAME</td>
+                                    <td>@student.BDAY.ToString("MMM dd, yyyy")</td>
+                                    <td>@student.GENDER</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (ViewBag.ReportType == "birthday")
+{
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-3">Birthday Celebrants</h5>
+            <form method="get" class="row g-3">
+                <input type="hidden" name="reportType" value="birthday" />
+                <div class="col-md-6">
+                    <select name="month" class="form-select" onchange="this.form.submit()">
+                        <option value="">Select Month</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i" selected="@(ViewBag.Month == i)">@(new DateTime(2024, i, 1).ToString("MMMM"))</option>
+                        }
+                    </select>
+                </div>
+            </form>
+        </div>
+        @if (ViewBag.Month != null && ViewBag.Students != null)
+        {
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Birthday</th>
+                                <th>Course</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in ViewBag.Students)
+                            {
+                                <tr>
+                                    <td>@student.FNAME @student.MNAME @student.LNAME</td>
+                                    <td>@student.BDAY.ToString("MMM dd, yyyy")</td>
+                                    <td>@student.CourseName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (ViewBag.ReportType == "coursechart")
+{
+    <div class="card">
+        <div class="card-header">
+            <h5>Course Distribution (Percentage)</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <canvas id="coursePercentageChart" style="max-height: 260px; max-width: 500px;"></canvas>
+            </div>
+        </div>
+    </div>
+}
+else if (ViewBag.ReportType == "genderchart")
+{
+    <div class="card">
+        <div class="card-header">
+            <h5>Gender Distribution</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-center">
+                <canvas id="genderDistributionChart" style="max-height: 240px; max-width: 420px;"></canvas>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @if (ViewBag.ReportType == "coursechart")
+    {
+        <script>
+            const courseData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.CourseDistribution));
+            const total = courseData.reduce((sum, d) => sum + d.StudentCount, 0);
+            
+            const ctxCourse = document.getElementById('coursePercentageChart').getContext('2d');
+            new Chart(ctxCourse, {
+                type: 'pie',
+                data: {
+                    labels: courseData.map(d => d.DESCRIPTION),
+                    datasets: [{
+                        data: courseData.map(d => ((d.StudentCount / total) * 100).toFixed(1)),
+                        backgroundColor: [
+                            '#111111', '#333333', '#555555', '#777777', '#999999',
+                            '#bbbbbb', '#dddddd', '#000000', '#222222', '#444444'
+                        ],
+                        borderColor: '#000000',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#000000' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': ' + context.parsed + '%';
+                                }
+                            }
+                        }
+                    },
+                    layout: { padding: 10 }
+                }
+            });
+        </script>
+    }
+    @if (ViewBag.ReportType == "genderchart")
+    {
+        <script>
+            const genderData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.GenderDistribution));
+            
+            const ctxGender = document.getElementById('genderDistributionChart').getContext('2d');
+            new Chart(ctxGender, {
+                type: 'doughnut',
+                data: {
+                    labels: genderData.map(d => d.Gender),
+                    datasets: [{
+                        data: genderData.map(d => d.Count),
+                        backgroundColor: ['#111111', '#555555', '#999999'],
+                        borderColor: '#000000',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#000000' }
+                        }
+                    },
+                    layout: { padding: 10 }
+                }
+            });
+        </script>
+    }
+}

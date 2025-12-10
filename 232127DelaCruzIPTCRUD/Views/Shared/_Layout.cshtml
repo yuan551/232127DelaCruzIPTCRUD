@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 232127 DelaCruz Student Management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9OVTSmysllUl1R2psKk5aw6u+LnuPe07yNSLkjbtBiF6NPq6ctz76gQVNoUojCCQIcad30i7h0/XIOH12/ftQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .navbar {
+            background: #1a1f2e !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            padding: 12px 0;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+        .nav-link {
+            color: #a0aec0 !important;
+            font-weight: 500;
+            margin: 0 4px;
+            padding: 6px 12px !important;
+            border-radius: 4px;
+            transition: all 0.15s ease;
+        }
+        .nav-link:hover {
+            background: #2d3748;
+            color: white !important;
+        }
+        .container-fluid {
+            padding: 0 20px;
+        }
+        main {
+            animation: fadeIn 0.2s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" style="background: #000;">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="_232127DelaCruzDashboard" asp-action="Dashboard" style="color:#fff; display: flex; align-items: center; gap: 10px;">
+                    <img src="/img/logo.png" alt="Logo" style="height: 40px; width: auto;">
+                    <span>Student Management System</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="_232127DelaCruzDashboard" asp-action="Dashboard" style="color:#eee;">
+                                <i class="fa-solid fa-gauge"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="_232127DelaCruzStudent" asp-action="Index" style="color:#eee;">
+                                <i class="fa-solid fa-user-graduate"></i> Students
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="_232127DelaCruzCourse" asp-action="Index" style="color:#eee;">
+                                <i class="fa-solid fa-book"></i> Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="_232127DelaCruzReport" asp-action="Index" style="color:#eee;">
+                                <i class="fa-solid fa-chart-pie"></i> Reports
+                            </a>
+                        </li>
+                    </ul>
+                    @if (ViewBag.UserName != null)
+                    {
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <span class="nav-link" style="color:#ddd;">
+                                    <i class="fa-solid fa-user"></i> @ViewBag.UserName
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="_232127DelaCruzUser" asp-action="Logout" style="color:#ddd;">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container-fluid px-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container">
+            &copy; 2025 - 232127 DelaCruz Student Management System
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

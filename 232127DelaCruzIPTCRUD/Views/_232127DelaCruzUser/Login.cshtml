@@ -1,0 +1,163 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - 232127 DelaCruz Student Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        @@keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body {
+            background: #0f1419;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container {
+            background: #1a1f2e;
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            padding: 50px;
+            max-width: 450px;
+            width: 100%;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: slideUp 1s ease-out 0.2s both;
+        }
+        
+        .login-header h2 {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #a0aec0;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            animation: slideUp 1s ease-out 0.4s both;
+        }
+        
+        .btn-login {
+            background: #4299e1;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px;
+            width: 100%;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 1s ease-out 0.6s both;
+        }
+        
+        .btn-login:hover {
+            background: #3182ce;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(66, 153, 225, 0.3);
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            padding: 12px 14px;
+            border: 1px solid #2d3748;
+            transition: all 0.3s ease;
+            background: #252d3d;
+            color: #e0e0e0;
+        }
+
+        .form-control::placeholder {
+            color: #718096;
+        }
+        
+        .form-control:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+            background: #2d3748;
+            color: #e0e0e0;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #cbd5e0;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .alert {
+            border-radius: 6px;
+            animation: slideUp 0.5s ease-out;
+            border: 1px solid #4a5568;
+            background: #2d3748;
+            color: #cbd5e0;
+        }
+
+        .alert-danger {
+            border-color: #c53030;
+            background: rgba(245, 101, 101, 0.1);
+            color: #fc8181;
+        }
+
+        .btn-close {
+            filter: invert(1) brightness(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="/img/logo.png" alt="Logo" style="height: 60px; width: auto; margin-bottom: 15px;">
+            <h2>Student Management System</h2>
+            <p>232127 DelaCruz</p>
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @ViewBag.Error
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <form method="post" asp-action="Login">
+            <div class="mb-3">
+                <label for="userid" class="form-label">User ID</label>
+                <input type="number" class="form-control" id="userid" name="userid" placeholder="Enter your user ID" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-login">Login</button>
+        </form>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

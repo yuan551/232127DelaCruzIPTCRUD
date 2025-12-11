@@ -1,0 +1,2 @@
+
+SELECT * FROM [dbo].[232127DelaCruzCOURSE];

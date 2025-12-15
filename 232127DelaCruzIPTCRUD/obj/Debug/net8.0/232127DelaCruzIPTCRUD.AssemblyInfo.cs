@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("232127DelaCruzIPTCRUD")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c7c24ab14da999cb8e3c4d446e70357263a5a0f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cfe3655544aa742241d88be75a9e9db87df5530c")]
 [assembly: System.Reflection.AssemblyProductAttribute("232127DelaCruzIPTCRUD")]
 [assembly: System.Reflection.AssemblyTitleAttribute("232127DelaCruzIPTCRUD")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
